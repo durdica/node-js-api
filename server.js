@@ -6,19 +6,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-app.get('/', function (req, res) {
-  res.end("Hello World")
-})
-
-app.post('/user', function (req, res) {
-  	res.end("yes")
-})
-
-app.get('/user/:id', function (req, res) {
-	res.send('user ' + req.params.id)
-})
+app.get('/', (req, res) => res.end("Hello World"))
 
 
-app.listen(3000, function () {
-  console.log('Started on port 3000')
-})
+app.post('/user', (req, res) => res.end("yes"))
+
+
+app.get('/user/:id', (req, res) => res.send('user ' + req.params.id))
+
+
+app.listen(3000, () => console.log('Started on port 3000'))
