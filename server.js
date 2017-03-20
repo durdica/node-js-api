@@ -1,47 +1,67 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 let app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-var events = {
-  1: new Event(1, "Writers Behave Badly", "Creative Writing Workshop", "2017-07-01"),
-  2: new Event(2, "Book Swap", "Bring a book and swap it.", "2017-07-03"),
-  3: new Event(3, "Storytelling: Finding Your Voice", "Interactive Storytelling", "2017-07-02"),
-  4: new Event(4, "Digital Debate", "New era of reading", "2017-07-02")
-};
+Event = require('./models/event')
 
-app.get('/event/all', (req, res)) => res.end(
-  for(var key in events){
-    res.send(JSON.stringify(events[key]));
-  }
-)
-app.get('/event/:id', req, res)) => res.end(
-  JSON.stringify(events[req.params.id]);
-)
+//Connect to mongoose
+mongoose.connect('mongodb://localhost/eventapi')
+let db = mongoose.connection
 
-app.post('/event/new', req, res)) => res.end(
+app.get('/', (req, res) => {
+    res.send('Use api/events')
+})
 
-)
+app.get('/api/events', (req, res) => {
+    Event.getEvents(err, events) => {
+        if(err){
+            throw err;
+        }
+        res.json(events);
+    })
+})
 
-app.put('/event/:id/update', (req, res)) => res.end(
+app.get('/api/events/:_id', (req, res) => {
+    Event.getEventById(req.params._id, (err, event) => {
+        if(err){
+            throw err;
+        }
+        res.json(event);
+    })
+})
 
-)
+app.post('/api/events', (req, res) => {
+    let event = req.body;
+    Event.addEvent(event, (err, event) => {
+        if(err){
+            throw err;
+        }
+        res.json(event);
+    })
+})
 
-app.delete('/event/:id/delete', (req, res)) => res.end(
+app.put('/api/events/:_id', (req, res) => {
+    let id = req.params._id;
+    let event = req.body;
+    Event.updateEvent(id, event, (err, event) => {
+        if(err){
+            throw err;
+        }
+        res.json(event);
+    })
+})
 
-)
-
-app.get('/', (req, res) => res.end("Hello World"))
-
-
-app.post('/user', (req, res) => res.end("yes"))
-
-
-app.get('/user/:id', (req, res) => res.send('user ' + req.params.id))
-
-//Create an event object containing an id, title, a description and a date
-
-
+app.delete('/api/events/:_id', (req, res) => {
+    let id = req.params._id;
+    Event.deleteEvent(id, (err, event) => {
+        if(err){
+            throw err;
+        }
+        res.json(event);
+    })
+})
 app.listen(3000, () => console.log('Started on port 3000'))
