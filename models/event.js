@@ -33,8 +33,8 @@ module.exports.getEventById = (event, callback) => {
 }
 //Update Event
 module.exports.updateEvent = (id, event, options callback) => {
-    var query = {_id: id};
-    var update = {
+    let query = {_id: id};
+    let update = {
         title: event.title,
         description: event.description,
         date: event.date,
@@ -43,6 +43,6 @@ module.exports.updateEvent = (id, event, options callback) => {
 }
 
 module.exports.deleteEvent = (id, callback) => {
-    var query = {_id: id};
+    let query = {_id: id};
     Event.remove(query, callback);
 }
