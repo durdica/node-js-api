@@ -1,0 +1,10 @@
+//create new db
+> use eventapi
+
+//create Events collection
+> db.createCollection('events')
+> show collections
+
+> db.events.insert({name:"Writers Behave Badly", description:"Creative Writing Workshop", date:"2017-07-01"})
+> db.events.insert({name:"Book Swap", description:"Bring a book and swap it", date:"2017-07-03"})
+> db.events.find()
