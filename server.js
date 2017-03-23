@@ -65,3 +65,14 @@ app.delete('/api/events/:_id', (req, res) => {
     })
 })
 app.listen(3000, () => console.log('Started on port 3000'))
+
+const getEvent = (index) => {
+	return new Promise (function (res, rej) {
+	if(index > 4){
+		rej("Index out of events");
+	}
+	else{
+		res (events[index - 1]);
+	}
+  })
+}
