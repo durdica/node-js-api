@@ -92,7 +92,7 @@ describe('Events', () => {
   */
  describe('/PUT/:id event', () => {
       it('it should UPDATE an event given the id', (done) => {
-        let event = new event({name: "The Digital Debate", description: "A new era of reading and publishing.", date: " "})
+        let event = new event({name: "The Digital Debate", description: "", date: "2017-07-02"})
         event.save((err, event) => {
                 chai.request(server)
                 .put('/event/' + event.id)
