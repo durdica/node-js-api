@@ -1,3 +1,4 @@
+//commands for creating a database
 //create new db
 > use eventapi
 
