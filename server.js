@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const morgan = require('morgan')
 let app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -12,9 +13,21 @@ Event = require('./models/event')
 mongoose.connect('mongodb://localhost/eventapi')
 let db = mongoose.connection
 
+
+//don't show the log when it is test
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+    //use morgan to log at command line
+    app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+}
+
+
+
 app.get('/', (req, res) => {
     res.send('Use api/events')
 })
+
+
+
 
 app.get('/api/events', (req, res) => {
     Event.getEvents(err, events) => {
@@ -69,7 +82,7 @@ app.listen(3000, () => console.log('Started on port 3000'))
 //use of promise
 const getEvent = (index) => {
 	return new Promise (function (res, rej) {
-	if(index > 4){
+	if(index > 2){
 		rej("Index out of events");
 	}
 	else{
